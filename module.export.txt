@@ -1,0 +1,15 @@
+module.exports = {
+  name: '',
+  desc: '',
+  category: '',
+  aliases: [],
+  perms: [],
+  usage: '',
+  args: true,
+  cooldown: ,
+  run: (client, message, args) => {
+    
+  }
+}
+
+»
