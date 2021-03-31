@@ -9,7 +9,6 @@ const {
 const config = require("../config.json");
 const glob = require("glob");
 const globPro = promisify(glob);
-const ascii = require("ascii-table");
 const {
   MongoClient
 } = require("salvage.db");
@@ -18,9 +17,6 @@ const client = new Client({
     intents: Intents.ALL,
   },
 });
-
-const table = new ascii("Commands");
-table.setHeading("Command", "Status", "Description");
 
 client.bettercase = (word) =>
 word[0].toUpperCase() + word.slice(1).toLowerCase();
