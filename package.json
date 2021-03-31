@@ -1,0 +1,17 @@
+{
+  "name": "vagbot",
+  "version": "2.0.0",
+  "description": "Custom bot for Vagmemes server",
+  "main": "./src/index.js",
+  "author": "RimiSkiller",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.6",
+    "mathjs": "^9.2.0",
+    "ms": "^2.1.3",
+    "canvas": "^2.7.0",
+    "request": "^2.88.2",
+    "leven": "^3.1.0",
+    "salvage.db": "^1.2.4"
+  }
+}
