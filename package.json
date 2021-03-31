@@ -6,6 +6,7 @@
   "author": "RimiSkiller",
   "license": "MIT",
   "dependencies": {
+    "discord.js": "^12.5.2",
     "glob": "^7.1.6",
     "mathjs": "^9.2.0",
     "ms": "^2.1.3",
