@@ -19,7 +19,7 @@ module.exports = {
       .setColor(client.color)
       .addField("• IP »", "- play.Vagmemes.com", true)
       .addField("• Port »", "- 25565", true);
-    const url = "https://api.mcsrvstat.us/2/blocksmc.com";
+    const url = "https://api.mcsrvstat.us/2/vagmemes.com";
     await request(url, async (err, response, body) => {
       if (err) {
         console.error(err);
