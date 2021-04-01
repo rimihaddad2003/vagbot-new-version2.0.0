@@ -14,7 +14,7 @@ module.exports = {
   run: async (client, member) => {
     const messages = [
       `**Everyone, please welcome ${member} !**`,
-      `**- Is is the end of world? no wait it's just ${member} showing up !**`,
+      `**- Is it the end of world? no wait it's just ${member} showing up !**`,
       `**- The legend says that ${member} will enjoy the server !**`,
       `**- hey ${member}, we have been waiting for you !**`,
       `**- I heard that ${member} is coming from the future to our server !**`,
