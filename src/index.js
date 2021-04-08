@@ -16,6 +16,7 @@ const client = new Client({
   ws: {
     intents: Intents.ALL,
   },
+partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
 
 client.bettercase = (word) =>
