@@ -9,10 +9,10 @@ module.exports = {
   run: async (client, message, args) => {
     const role = await client.db.get("fam_role");
     const norole = (m) =>
-      m.user.username.toLowerCase().includes("vag") && !m.roles.cache.has(role);
+      !m.user.bot && m.user.username.toLowerCase().includes("vag") && !m.roles.cache.has(role);
     const withrole = (m) =>
-      !m.user.username.toLowerCase().includes("vag") && m.roles.cache.has(role);
-    const nickname = (m) => m.nickname;
+      !m.user.bot && !m.user.username.toLowerCase().includes("vag") && m.roles.cache.has(role);
+    const nickname = (m) => !m.user.bot && m.nickname;
     const embed = new MessageEmbed()
       .setColor(client.color)
       .setTitle(`# - ${client.botname}Family`)
