@@ -89,4 +89,8 @@ client.db = new MongoClient({
   });
 })();
 
+process.on('unhandledRejection', error => {
+	 client.channels.chache.get('831485366513958952').send(error);
+});
+
 client.login(process.env.TOKEN);
