@@ -32,7 +32,8 @@ module.exports = {
     if (args[0].toLowerCase() == 'open') return send('Open');
     if (args[0].toLowerCase() == 'close') return send('Close');
     if (args[0].toLowerCase() == 'ask') return send('Ask');
-    if (args[0].toLowerCase() == 'wrong') return send('Wrong');
+    if (args[0].toLowerCase() == 'dwrong') return send('Wrong');
+    if (args[0].toLowerCase() == 'mwrong') return send('MWrong');
     if (args[0].toLowerCase() == 'warn') return send('Warn');
   },
 };
