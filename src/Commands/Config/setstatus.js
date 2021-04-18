@@ -33,7 +33,6 @@ module.exports = {
     };
     await client.db
       .set("prestatus", prestatus)
-      .then(() =>
         message.channel.send(
           `**✅ - Successfully changed bot's status into:**\n**<** ${client.bettercase(
             stype
@@ -42,7 +41,6 @@ module.exports = {
             .replace("{mcp}", "`MC-Players`")
             .replace("{dsm}", "`Discord-Total-Members`")
             .replace("{dso}", "`Discord-Online-Members`")} >**`
-        )
       );
   },
 };
