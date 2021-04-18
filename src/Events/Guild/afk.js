@@ -1,6 +1,7 @@
 module.exports = {
   name: "message",
   run: async (client, message) => {
+    if (member.guild.id !== '592265927819788289') return;
     const staff = message.mentions.users.first();
     if (staff) {
       const outafk = await client.db.get(`${staff.id}_afk`);
