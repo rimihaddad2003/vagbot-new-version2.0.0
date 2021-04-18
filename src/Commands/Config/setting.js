@@ -25,10 +25,8 @@ module.exports = {
           );
         await client.db
           .set("sugg_channel", channel.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set suggestions channel to <#${channel.id}> .**`
-            )
           );
       }
     }
@@ -49,10 +47,8 @@ module.exports = {
           );
         await client.db
           .set("logs_channel", channel.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set logs channel to <#${channel.id}> .**`
-            )
           );
       }
     }
@@ -73,10 +69,8 @@ module.exports = {
           );
         await client.db
           .set("welcome_channel", channel.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set welcome channel to <#${channel.id}> .**`
-            )
           );
       }
     }
@@ -96,11 +90,9 @@ module.exports = {
             "**⚠️ - Invalid channel, please provide a mention or an ID .**"
           );
         await client.db
-          .set("applysend_channel", channel.id)
-          .then(() =>
+          .set("applysend_channel", channel.i
             message.channel.send(
               `**✅ Successfully set applications channel to <#${channel.id}> .**`
-            )
           );
       } else {
         const channel =
@@ -112,10 +104,8 @@ module.exports = {
           );
         await client.db
           .set("apply_channel", channel.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set apply channel to <#${channel.id}> .**`
-            )
           );
       }
     }
@@ -136,10 +126,8 @@ module.exports = {
           );
         await client.db
           .set("fam_role", role.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set family role to \`${role.name}\` .**`
-            )
           );
       }
     }
@@ -160,10 +148,8 @@ module.exports = {
           );
         await client.db
           .set("luck_role", role.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set luck role to \`${role.name}\` .**`
-            )
           );
       }
     }
@@ -185,10 +171,8 @@ module.exports = {
           );
         await client.db
           .set("event_role", role.id)
-          .then(() =>
             message.channel.send(
               `**✅ Successfully set event role to \`${role.name}\` .**`
-            )
           );
       }
     }
