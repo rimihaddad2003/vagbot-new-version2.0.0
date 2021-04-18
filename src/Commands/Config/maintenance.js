@@ -50,18 +50,14 @@ module.exports = {
     if ((await client.db.get(`${command.name}_maint`)) == "no")
       await client.db
         .set(`${command.name}_maint`, "yes")
-        .then(() =>
           message.channel.send(
             "**✅ - Successfully turned on command maintenance .**"
-          )
         );
     else
       await client.db
         .set(`${command.name}_maint`, "no")
-        .then(() =>
           message.channel.send(
             "**✅ - Successfully turned off command maintenance .**"
-          )
         );
   },
 };
