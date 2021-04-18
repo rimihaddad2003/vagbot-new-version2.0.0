@@ -16,11 +16,10 @@ module.exports = {
       status: true,
       message: args.join(" "),
     };
-    await client.db.set(`${message.author.id}_afk`, obj).then(() => {
+    await client.db.set(`${message.author.id}_afk`, obj)
       message.channel.send(
         `**✅ - Successfully set your AFK's status to:**\n\`${obj.message}\``
       );
       message.member.setNickname(`[AFK] ${message.author.username}`);
-    });
   },
 };
