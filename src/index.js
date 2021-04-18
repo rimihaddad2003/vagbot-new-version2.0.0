@@ -30,13 +30,14 @@ client.events = new Collection();
 client.cooldowns = new Collection();
 client.aliases = new Collection();
 client.categories = new Set();
-client.db = new MongoClient({
+client.db = require('quick.db');
+/* client.db = new MongoClient({
   mongoURI:
   process.env.MONGO,
   schema: {
     name: "Data",
   },
-});
+}); */
 
 (async () => {
   const EventsFiles = await globPro(`${__dirname}/Events/**/*.js`);
