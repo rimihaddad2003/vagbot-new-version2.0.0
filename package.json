@@ -13,6 +13,7 @@
     "canvas": "^2.7.0",
     "request": "^2.88.2",
     "leven": "^3.1.0",
-    "salvage.db": "^1.2.4"
+    "salvage.db": "^1.2.4",
+    "quick.db": "^7.1.3"
   }
 }
