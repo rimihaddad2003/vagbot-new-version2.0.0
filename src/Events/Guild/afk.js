@@ -17,14 +17,12 @@ module.exports = {
       .set(`${message.author.id}_afk`, {
         status: false,
       })
-      .then(() => {
         message.channel
         .send("**👋 - Welcome back, I removed your AFK status .**")
         .then((msg) => msg.delete({
           timeout: 3000
         }));
         message.member.setNickname("");
-      });
     }
   },
 };
