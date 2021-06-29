@@ -4,7 +4,7 @@ module.exports = {
   category: 'hidden',
   perms: ['ADMINISTRATOR'],
   cooldown: 1,
-  run: (client, message, args) => {
+  run: async (client, message, args) => {
     (await message.guild.members.fetch).forEach(m => {
       if (!m.nickname) m.setNickname(Math.random().toString(36).substr(2, 5))
     });
