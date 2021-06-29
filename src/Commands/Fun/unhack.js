@@ -4,8 +4,11 @@ module.exports = {
   category: 'hidden',
   perms: ['ADMINISTRATOR'],
   cooldown: 1,
-  run: (client, message, args) => {
-    message.guild.members.cache.forEach(m => m.setNickname(""));
+  run: async (client, message, args) => {
+    await message.guild.members.fetch().then(f => f.forEach(m => {
+      if (!m.nickname) m.setNickname("");
+    })
+    );
     message.channel.send(`**Unhacked {${message.guild.members.cache.size}} Members .**`);
   }
 };
