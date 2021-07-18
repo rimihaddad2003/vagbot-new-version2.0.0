@@ -16,11 +16,11 @@ const client = new Client({
   ws: {
     intents: Intents.ALL,
   },
-partials: ["MESSAGE", "CHANNEL", "REACTION"],
+  partials: ["MESSAGE", "CHANNEL", "REACTION"],
 });
 
 client.bettercase = (word) =>
-word[0].toUpperCase() + word.slice(1).toLowerCase();
+  word[0].toUpperCase() + word.slice(1).toLowerCase();
 client.prefix = config.prefix;
 client.botname = config.name;
 client.color = config.color;
@@ -91,7 +91,7 @@ client.db = require('quick.db');
 })();
 
 process.on('unhandledRejection', error => {
-	 client.channels.cache.get('831485366513958952').send(error);
+  client.channels.cache.get('831485366513958952').send(error);
 });
 
 client.login(process.env.TOKEN);
