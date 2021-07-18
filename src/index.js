@@ -1,26 +1,27 @@
+require('dotenv').config();
 const {
-  Client,
-  Intents,
-  Collection
-} = require("discord.js");
+	Client,
+	Intents,
+	Collection,
+} = require('discord.js');
 const {
-  promisify
-} = require("util");
-const config = require("../config.json");
-const glob = require("glob");
+	promisify,
+} = require('util');
+const config = require('../config.json');
+const glob = require('glob');
 const globPro = promisify(glob);
-const {
-  MongoClient
-} = require("salvage.db");
+/* const {
+  MongoClient,
+} = require('salvage.db'); */
 const client = new Client({
-  ws: {
-    intents: Intents.ALL,
-  },
-  partials: ["MESSAGE", "CHANNEL", "REACTION"],
+	ws: {
+		intents: Intents.ALL,
+	},
+	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
 
 client.bettercase = (word) =>
-  word[0].toUpperCase() + word.slice(1).toLowerCase();
+	word[0].toUpperCase() + word.slice(1).toLowerCase();
 client.prefix = config.prefix;
 client.botname = config.name;
 client.color = config.color;
@@ -35,63 +36,57 @@ client.db = require('quick.db');
   mongoURI:
   process.env.MONGO,
   schema: {
-    name: "Data",
+	name: "Data",
   },
 }); */
 
 (async () => {
-  const EventsFiles = await globPro(`${__dirname}/Events/**/*.js`);
-  const CommandsFiles = await globPro(`${__dirname}/Commands/**/*.js`);
+	const EventsFiles = await globPro(`${__dirname}/Events/**/*.js`);
+	const CommandsFiles = await globPro(`${__dirname}/Commands/**/*.js`);
 
-  EventsFiles.forEach((value) => {
-    try {
-      const file = require(value);
-      if (!file.name) throw new Error("Missing File.name");
-      if (typeof file.name !== "string")
-        throw new Error("File.name must be a string");
-      client.events.set(file.name, file);
-      client.on(file.name, file.run.bind(null, client));
-      console.log(`[🔵] - ${value.split("/").pop()}`);
-    } catch (err) {
-      console.log(`[🔴] - ${value.split("/").pop()} (${err.message})`);
-    }
-  });
-  CommandsFiles.forEach(async (value) => {
-    try {
-      const file = require(value);
-      if (!file.name) throw new Error("Missing File.name");
-      if (typeof file.name !== "string")
-        throw new Error("File.name must be a string");
-      if (!file.desc) throw new Error("Missing File.desc");
-      if (typeof file.desc !== "string")
-        throw new Error("File.desc must be a string");
-      if (!file.cooldown) throw new Error("Missing File.cooldown");
-      if (typeof file.cooldown !== "number")
-        throw new Error("File.cooldown must be a number");
-      client.commands.set(file.name, file);
-      if (file.aliases)
-        file.aliases.map((value) => client.aliases.set(value, file.name));
-      if (file.category) {
-        if (typeof file.category !== "string")
-          throw new Error("File.category must be a string");
-        client.categories.add(client.bettercase(file.category));
-      } else throw new Error("Missing File.category");
-      if (!file.run) throw new Error("Missing File.run");
-      if (typeof file.run !== "function")
-        throw new Error("File.run must be a function");
-      if (!(await client.db.get(`${file.name}_maint`)))
-        await client.db.set(`${file.name}_maint`, "no");
-      if ((await client.db.get(`${file.name}_maint`)) == "yes")
-        throw new Error("Maintenance");
-      console.log(`[🔵] - ${file.name}`);
-    } catch (err) {
-      console.log(`[🔴] - ${value.split("/").pop()} (${err.message})`);
-    }
-  });
+	EventsFiles.forEach((value) => {
+		try {
+			const file = require(value);
+			if (!file.name) throw new Error('Missing File.name');
+			if (typeof file.name !== 'string') { throw new Error('File.name must be a string'); }
+			client.events.set(file.name, file);
+			client.on(file.name, file.run.bind(null, client));
+			console.log(`[🔵] - ${value.split('/').pop()}`);
+		}
+		catch (err) {
+			console.log(`[🔴] - ${value.split('/').pop()} (${err.message})`);
+		}
+	});
+	CommandsFiles.forEach(async (value) => {
+		try {
+			const file = require(value);
+			if (!file.name) throw new Error('Missing File.name');
+			if (typeof file.name !== 'string') { throw new Error('File.name must be a string'); }
+			if (!file.desc) throw new Error('Missing File.desc');
+			if (typeof file.desc !== 'string') { throw new Error('File.desc must be a string'); }
+			if (!file.cooldown) throw new Error('Missing File.cooldown');
+			if (typeof file.cooldown !== 'number') { throw new Error('File.cooldown must be a number'); }
+			client.commands.set(file.name, file);
+			if (file.aliases) { file.aliases.map((value1) => client.aliases.set(value1, file.name)); }
+			if (file.category) {
+				if (typeof file.category !== 'string') { throw new Error('File.category must be a string'); }
+				client.categories.add(client.bettercase(file.category));
+			}
+			else { throw new Error('Missing File.category'); }
+			if (!file.run) throw new Error('Missing File.run');
+			if (typeof file.run !== 'function') { throw new Error('File.run must be a function'); }
+			if (!(await client.db.get(`${file.name}_maint`))) { await client.db.set(`${file.name}_maint`, 'no'); }
+			if ((await client.db.get(`${file.name}_maint`)) == 'yes') { throw new Error('Maintenance'); }
+			console.log(`[🔵] - ${file.name}`);
+		}
+		catch (err) {
+			console.log(`[🔴] - ${value.split('/').pop()} (${err.message})`);
+		}
+	});
 })();
 
 process.on('unhandledRejection', error => {
-  client.channels.cache.get('831485366513958952').send(error);
+	client.channels.cache.get('866415390321279005').send(error);
 });
 
 client.login(process.env.TOKEN);
