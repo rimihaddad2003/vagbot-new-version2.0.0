@@ -21,6 +21,7 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 *.lcov
+package-lock.json
 
 # nyc test coverage
 .nyc_output
@@ -52,6 +53,7 @@ typings/
 
 # Optional eslint cache
 .eslintcache
+.eslintrc.json
 
 # Microbundle cache
 .rpt2_cache/
@@ -67,7 +69,6 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
-yarn.lock
 
 # dotenv environment variables file
 .env
