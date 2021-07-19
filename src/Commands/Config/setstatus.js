@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 module.exports = {
 	name: 'setstatus',
 	desc: 'Change the bot\'s status with a multiple variable',
@@ -16,7 +15,7 @@ module.exports = {
 			'streaming',
 			'competing',
 		];
-		[stype, ...sname] = args;
+		const [stype, ...sname] = args;
 		if (!activities.includes(stype.toLowerCase())) {
 			return message.channel.send(
 				`**⚠️ - Invalid status type, try one of those: \`${activities

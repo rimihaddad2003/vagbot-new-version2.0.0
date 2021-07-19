@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -10,7 +9,7 @@ module.exports = {
 	args: true,
 	cooldown: 5000,
 	run: async (client, message, args) => {
-		[id, ...reply] = args;
+		const [id, ...reply] = args;
 		if (!reply.length) {return message.channel.send('**🤔 - Please provide a reply to post .**');}
 		client.channels.cache
 			.get(await client.db.get('sugg_channel'))

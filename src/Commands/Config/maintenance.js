@@ -28,7 +28,7 @@ module.exports = {
 						: `Did you mean any of these : \`${best
 							.map((v) => v)
 							.join('`, `')}\``;
-			if (!corr) {return message.channel.send('**🤔 - Invalid command .**');}
+			if (!corr) { return message.channel.send('**🤔 - Invalid command .**'); }
 			else {
 				return message.channel.send(
 					`**🤔 - Invalid command .**\n**${corr} .**`,
@@ -46,7 +46,7 @@ module.exports = {
 		if (
 			args[1] == 'status' &&
 			(await client.db.get(`${command.name}_maint`)) == 'no'
-		) {return message.channel.send('**🟢 - This command is working .**');}
+		) { return message.channel.send('**🟢 - This command is working .**'); }
 		if ((await client.db.get(`${command.name}_maint`)) == 'no') {
 			await client.db
 				.set(`${command.name}_maint`, 'yes');
@@ -57,9 +57,7 @@ module.exports = {
 		else {
 			await client.db
 				.set(`${command.name}_maint`, 'no');
+			message.channel.send('**✅ - Successfully turned off command maintenance .**');
 		}
-		message.channel.send(
-			'**✅ - Successfully turned off command maintenance .**',
-		);
 	},
 };

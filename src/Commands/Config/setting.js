@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 module.exports = {
 	name: 'setting',
 	desc: 'Change bot\'s setting in the server',
@@ -8,8 +7,7 @@ module.exports = {
 	args: true,
 	cooldown: 3000,
 	run: async (client, message, args) => {
-		[setting,
-			...newset] = args;
+		const [setting, ...newset] = args;
 		if (setting == 'suggestions') {
 			if (!newset[0]) {
 				message.channel.send(
