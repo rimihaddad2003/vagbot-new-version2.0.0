@@ -33,8 +33,7 @@ client.aliases = new Collection();
 client.categories = new Set();
 client.db = require('quick.db');
 /* client.db = new MongoClient({
-  mongoURI:
-  process.env.MONGO,
+  mongoURI: process.env.MONGO,
   schema: {
 	name: "Data",
   },

@@ -9,7 +9,7 @@ module.exports = {
 			.send({
 				files: [
 					{
-						attachment: `${__dirname}/../../Photos/VagLine.png`,
+						attachment: `${__dirname}/../../Photos/VagLine${Math.round(Math.random()) + 1}.png`,
 						name: 'VagLine.png',
 					},
 				],
