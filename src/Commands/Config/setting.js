@@ -240,5 +240,30 @@ module.exports = {
 				);
 			}
 		}
+		if (setting == 'suggrole') {
+			if (!newset[0]) {
+				const role = await client.db.get('sugg_role');
+				message.channel.send(
+					`**🔍 - Current suggestion role/s: \`${role
+						.map((value) => message.guild.roles.cache.get(value).name)
+						.join('`, `')}\` .**`,
+				);
+			}
+			else {
+				const todb = [];
+				newset.forEach((value) => {
+					const role = message.guild.roles.cache.get(value);
+					if (!role) return;
+					todb.push(role.id);
+				});
+				await client.db.set('sugg_role',
+					todb);
+				message.channel.send(
+					`**🔍 - Successfully set suggestion role/s to: \`${todb
+						.map((value) => message.guild.roles.cache.get(value).name)
+						.join('`, `')}\` .**`,
+				);
+			}
+		}
 	},
 };

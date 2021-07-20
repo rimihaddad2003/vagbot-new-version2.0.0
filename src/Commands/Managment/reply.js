@@ -9,6 +9,8 @@ module.exports = {
 	args: true,
 	cooldown: 5000,
 	run: async (client, message, args) => {
+		const roles = await client.db.get('sugg_role');
+		if (!message.member.roles.cache.some(role => roles.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
 		const [id, ...reply] = args;
 		if (!reply.length) {return message.channel.send('**🤔 - Please provide a reply to post .**');}
 		client.channels.cache
