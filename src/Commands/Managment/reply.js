@@ -4,7 +4,6 @@ module.exports = {
 	name: 'reply',
 	desc: 'Reply to a suggestion sent in the channel',
 	category: 'management',
-	perms: ['ADMINISTRATOR', 'MANAGE_GUILD'],
 	usage: '<message id> <reply>',
 	args: true,
 	cooldown: 5000,
