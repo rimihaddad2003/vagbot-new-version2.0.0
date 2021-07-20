@@ -4,6 +4,6 @@ module.exports = {
 	cooldown: 1,
 	category: 'hidden',
 	run: (client, message) => {
-		message.channel.send(Math.round(Math.random()) + 1);
+		client.emit('guildMemberAdd', message.member);
 	},
 };

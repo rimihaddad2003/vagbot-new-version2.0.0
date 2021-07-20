@@ -19,7 +19,7 @@ module.exports = {
 			else {
 				const channel =
 					message.mentions.channels.first() ||
-					message.guild.channels.cache.get(newset[0]);
+					client.channels.cache.get(newset[0]);
 				if (!channel) {
 					return message.channel.send(
 						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
@@ -43,7 +43,7 @@ module.exports = {
 			else {
 				const channel =
 					message.mentions.channels.first() ||
-					message.guild.channels.cache.get(newset[0]);
+					client.channels.cache.get(newset[0]);
 				if (!channel) {
 					return message.channel.send(
 						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
@@ -67,7 +67,7 @@ module.exports = {
 			else {
 				const channel =
 					message.mentions.channels.first() ||
-					message.guild.channels.cache.get(newset[0]);
+					client.channels.cache.get(newset[0]);
 				if (!channel) {
 					return message.channel.send(
 						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
@@ -106,7 +106,7 @@ module.exports = {
 			else {
 				const channel =
 					message.mentions.channels.first() ||
-					message.guild.channels.cache.get(newset[0]);
+					client.channels.cache.get(newset[0]);
 				if (!channel) {
 					return message.channel.send(
 						'**⚠️ - Invalid channel, please provide a mention or an ID .**',

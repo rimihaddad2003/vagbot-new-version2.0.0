@@ -104,3 +104,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Test command
+src/Commands/Config/test.js
