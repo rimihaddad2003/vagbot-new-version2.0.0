@@ -13,7 +13,7 @@ registerFont(`${__dirname}/../../Fonts/Changa.ttf`, { family: 'Changa' });
 module.exports = {
 	name: 'guildMemberAdd',
 	run: async (client, member) => {
-		if (member.guild.id !== '739132110006124654') return;
+		if (member.guild.id !== '592265927819788289') return;
 		const messages = [
 			`**• Everyone, please welcome ${member} !**`,
 			`**• Is it the end of world? no wait it's just ${member} showing up !**`,
