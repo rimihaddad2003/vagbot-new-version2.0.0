@@ -15,11 +15,11 @@ module.exports = {
 			const filter = (reaction, user) => {
 				return reaction.emoji.name === '✅' && user.id === message.author.id;
 			};
-			msg.awaitReactions(filter, { max: 1 , time: 60000, errors: ['time'] }).then(() => {
-				message.channel.send('.');
+			msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(() => {
+				message.channel.send(`**• The role has been given to __${mem.user.username}__ .**`);
 				mem.roles.add(message.guild.roles.cache.get('830956463052685332'));
-				mem.user.send(`**• Hey ${mem.user} .**\n- You have been accepted to be a part of our Discord staff team .\n- Please join Our Staff Server .\n\n**• مرحباً ${mem.user} .**\n- لقد تم قبولك لتكون جزءً من فريق الإدارة الخاصة بنا .\n- الرجاء دخول سيرفر الإدارة الخاصة بنا .\n\n|| https://discord.gg/v4dgF3g8Mb ||`).catch(() => message.channel.send(`**• ${mem.user.username} has his private message turn off .**`));
-			}).catch(() => message.channel.send(`**• You didn't accept ${mem.user.username} .**`));
+				mem.user.send(`**• Hey ${mem.user} .**\n- You have been accepted to be a part of our Discord staff team .\n- Please join Our Staff Server .\n\n**• مرحباً ${mem.user} .**\n- لقد تم قبولك لتكون جزءاً من فريق الإدارة الخاصة بنا .\n- الرجاء دخول سيرفر الإدارة الخاصة بنا .\n\n|| https://discord.gg/v4dgF3g8Mb ||`).catch(() => message.channel.send(`**• ${mem.user.username} has his private message turn off .**`));
+			}).catch(() => message.channel.send(`**• You didn't accept __${mem.user.username}__ .**`));
 		});
 	},
 };
