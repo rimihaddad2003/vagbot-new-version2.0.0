@@ -18,6 +18,6 @@ module.exports = {
 		message.channel.send(
 			`**✅ - Successfully set your AFK's status to:**\n\`${obj.message}\``,
 		);
-		message.member.setNickname(`[AFK] ${message.author.username}`);
+		message.member.setNickname(`• AFK | ${message.member.displayName}`);
 	},
 };

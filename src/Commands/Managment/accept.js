@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'accept',
 	desc: 'Accept someone\'s application',
-	category: 'managment',
+	category: 'management',
 	usage: '<member>',
 	args: true,
 	cooldown: 5000,
@@ -16,6 +16,7 @@ module.exports = {
 				return reaction.emoji.name === '✅' && user.id === message.author.id;
 			};
 			msg.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] }).then(() => {
+				msg.delete();
 				message.channel.send(`**• The role has been given to __${mem.user.username}__ .**`);
 				mem.roles.add(message.guild.roles.cache.get('830956463052685332'));
 				mem.user.send(`**• Hey ${mem.user} .**\n- You have been accepted to be a part of our Discord staff team .\n- Please join Our Staff Server .\n\n**• مرحباً ${mem.user} .**\n- لقد تم قبولك لتكون جزءاً من فريق الإدارة الخاصة بنا .\n- الرجاء دخول سيرفر الإدارة الخاصة بنا .\n\n|| https://discord.gg/v4dgF3g8Mb ||`).catch(() => message.channel.send(`**• ${mem.user.username} has his private message turn off .**`));

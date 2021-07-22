@@ -32,30 +32,6 @@ module.exports = {
 				);
 			}
 		}
-		if (setting == 'logs') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current logs channel is <#${await client.db.get(
-						'logs_channel',
-					)}> .**`,
-				);
-			}
-			else {
-				const channel =
-					message.mentions.channels.first() ||
-					client.channels.cache.get(newset[0]);
-				if (!channel) {
-					return message.channel.send(
-						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('logs_channel', channel.id);
-				message.channel.send(
-					`**✅ Successfully set logs channel to <#${channel.id}> .**`,
-				);
-			}
-		}
 		if (setting == 'welcome') {
 			if (!newset[0]) {
 				message.channel.send(
@@ -139,29 +115,6 @@ module.exports = {
 					.set('fam_role', role.id);
 				message.channel.send(
 					`**✅ Successfully set family role to \`${role.name}\` .**`,
-				);
-			}
-		}
-		if (setting == 'luck') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current luck role is \`${message.guild.roles.cache.get(await client.db.get('luck_role')).name
-					}\` .**`,
-				);
-			}
-			else {
-				const role =
-					message.mentions.roles.first() ||
-					message.guild.roles.cache.get(newset[0]);
-				if (!role) {
-					return message.channel.send(
-						'**⚠️ - Invalid role, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('luck_role', role.id);
-				message.channel.send(
-					`**✅ Successfully set luck role to \`${role.name}\` .**`,
 				);
 			}
 		}

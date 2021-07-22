@@ -9,12 +9,13 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setTitle(`# - ${client.botname}Apply`)
 			.setDescription(message.content)
-			.setFooter(`Name: ${message.author.username}\nID: ${message.author.id}`)
+			.setFooter(`­ • Name: ${message.author.username}\n • ID: ${message.author.id}\n­`, message.author.displayAvatarURL({ dynamic: true }))
 			.setColor(client.color)
-			.setTimestamp();
+			.setTimestamp()
+			.setThumbnail(message.guild.iconURL({ dynamic: true }));
 		channel.send(embed);
 		message.delete();
 		message.channel.send('**📨 - Your Application has been sent to our staff .**')
-			.then(msg => msg.delete({ timeout: 7000 }));
+			.then(msg => msg.delete({ timeout: 10000 }));
 	},
 };

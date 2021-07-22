@@ -10,9 +10,7 @@ const {
 const config = require('../config.json');
 const glob = require('glob');
 const globPro = promisify(glob);
-/* const {
-  MongoClient,
-} = require('salvage.db'); */
+const { MongoClient } = require('salvage.db');
 const client = new Client({
 	ws: {
 		intents: Intents.ALL,
@@ -31,13 +29,12 @@ client.events = new Collection();
 client.cooldowns = new Collection();
 client.aliases = new Collection();
 client.categories = new Set();
-client.db = require('quick.db');
-/* client.db = new MongoClient({
+client.db = new MongoClient({
   mongoURI: process.env.MONGO,
   schema: {
 	name: "Data",
   },
-}); */
+});
 
 (async () => {
 	const EventsFiles = await globPro(`${__dirname}/Events/**/*.js`);
@@ -50,10 +47,10 @@ client.db = require('quick.db');
 			if (typeof file.name !== 'string') { throw new Error('File.name must be a string'); }
 			client.events.set(file.name, file);
 			client.on(file.name, file.run.bind(null, client));
-			console.log(`[🔵] - ${value.split('/').pop()}`);
+			console.log(`• Event: [🔵] - ${value.split('/').pop()}`);
 		}
 		catch (err) {
-			console.log(`[🔴] - ${value.split('/').pop()} (${err.message})`);
+			console.log(`• Event: [🔴] - ${value.split('/').pop()} (${err.message})`);
 		}
 	});
 	CommandsFiles.forEach(async (value) => {
@@ -76,16 +73,16 @@ client.db = require('quick.db');
 			if (typeof file.run !== 'function') { throw new Error('File.run must be a function'); }
 			if (!(await client.db.get(`${file.name}_maint`))) { await client.db.set(`${file.name}_maint`, 'no'); }
 			if ((await client.db.get(`${file.name}_maint`)) == 'yes') { throw new Error('Maintenance'); }
-			console.log(`[🔵] - ${file.name}`);
+			console.log(`• Command: [🔵] - ${file.name}`);
 		}
 		catch (err) {
-			console.log(`[🔴] - ${value.split('/').pop()} (${err.message})`);
+			console.log(`• Command: [🔴] - ${value.split('/').pop()} (${err.message})`);
 		}
 	});
 })();
 
 process.on('unhandledRejection', error => {
-	client.channels.cache.get('866415390321279005').send(error);
+	client.channels.fetch('866415390321279005').then(ch => ch.send(error));
 });
 
 client.login(process.env.TOKEN);

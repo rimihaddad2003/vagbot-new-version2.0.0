@@ -7,7 +7,7 @@ module.exports = {
 			const outafk = await client.db.get(`${staff.id}_afk`);
 			if (outafk && outafk.status == true) {
 				return message.channel.send(
-					`**💤 - \`${staff.username}\` is currently AFK for:**\n${outafk.message}`,
+					`**💤 - __${staff.username}__ is currently AFK for:**\n\`${outafk.message}\``,
 				);
 			}
 		}
@@ -22,7 +22,12 @@ module.exports = {
 				.then((msg) => msg.delete({
 					timeout: 3000,
 				}));
-			message.member.setNickname('');
+			const name = message.member.nickname.substr(8);
+			if (name == message.author.username) {
+				message.member.setNickname('');
+			} else {
+				message.member.setNickname(name);
+			}
 		}
 	},
 };
