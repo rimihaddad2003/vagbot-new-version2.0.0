@@ -10,13 +10,14 @@ const {
 const config = require('../config.json');
 const glob = require('glob');
 const globPro = promisify(glob);
-const { MongoClient } = require('salvage.db');
 const client = new Client({
 	ws: {
 		intents: Intents.ALL,
 	},
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
+const mongoose = require('mongoose');
+const maintSchema = require('./Models/maintenanceModel');
 
 client.bettercase = (word) =>
 	word[0].toUpperCase() + word.slice(1).toLowerCase();
@@ -29,14 +30,16 @@ client.events = new Collection();
 client.cooldowns = new Collection();
 client.aliases = new Collection();
 client.categories = new Set();
-client.db = new MongoClient({
-  mongoURI: process.env.MONGO,
-  schema: {
-	name: "Data",
-  },
-});
 
 (async () => {
+	try {
+		await mongoose.connect(process.env.MONGO, {
+			useFindAndModify: false, useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, dbName: 'Vagmemes',
+		});
+	}
+	catch (err) {
+		console.log(err);
+	}
 	const EventsFiles = await globPro(`${__dirname}/Events/**/*.js`);
 	const CommandsFiles = await globPro(`${__dirname}/Commands/**/*.js`);
 
@@ -71,8 +74,18 @@ client.db = new MongoClient({
 			else { throw new Error('Missing File.category'); }
 			if (!file.run) throw new Error('Missing File.run');
 			if (typeof file.run !== 'function') { throw new Error('File.run must be a function'); }
-			if (!(await client.db.get(`${file.name}_maint`))) { await client.db.set(`${file.name}_maint`, 'no'); }
-			if ((await client.db.get(`${file.name}_maint`)) == 'yes') { throw new Error('Maintenance'); }
+
+			const maintData = await maintSchema.findOne({ commandname: file.name })
+				? await maintSchema.findOne({ commandname: file.name })
+				: new maintSchema({
+					commandname: file.name,
+					maintenance: false,
+				});
+			maintData.save();
+
+			if (maintData.maintenance == true) { throw new Error('Maintenance'); }
+
+
 			console.log(`• Command: [🔵] - ${file.name}`);
 		}
 		catch (err) {

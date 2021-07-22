@@ -1,10 +1,12 @@
 const { MessageEmbed } = require('discord.js');
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'message',
 	run: async (client, message) => {
+		const channel = await settingSchema.findOne({ option: 'suggestions' });
 		if (message.author.bot) return;
-		if (message.channel.id !== (await client.db.get('sugg_channel'))) return;
+		if (message.channel.id !== channel.setting) return;
 		const embed = new MessageEmbed()
 			.setColor(client.color)
 			.setTitle(`# - ${client.botname}Suggestion`)

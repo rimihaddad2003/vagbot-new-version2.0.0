@@ -1,3 +1,6 @@
+const setting = require('../../Models/settingModel');
+const afkModel = require('../../Models/afkModel');
+
 module.exports = {
 	name: 'afk',
 	desc: 'Set your status to AFK',
@@ -6,18 +9,25 @@ module.exports = {
 	args: true,
 	cooldown: 10000,
 	run: async (client, message, args) => {
-		const afk = await client.db.get(`${message.author.id}_afk`);
-		const roles = await client.db.get('staff_role');
-		if (!message.member.roles.cache.some(role => roles.includes(role.id))) {return message.channel.send('**🚫 - This command is for staff only .**');}
-		if (afk && afk.status == true) {return message.channel.send('**🤔 - You\'re already AFKing .**');}
-		const obj = {
-			status: true,
-			message: args.join(' '),
-		};
-		await client.db.set(`${message.author.id}_afk`, obj);
-		message.channel.send(
-			`**✅ - Successfully set your AFK's status to:**\n\`${obj.message}\``,
-		);
+		const data = await setting.findOne({ option: 'staff' });
+		if (!message.member.roles.cache.some(role => data.setting.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
+		const afkData = await afkModel.findOne({ staff: message.author.id })
+			? await afkModel.findOne({ staff: message.author.id })
+			: new afkModel({
+				staff: message.author.id,
+				afk: false,
+				message: 'none',
+			});
+		afkData.save();
+
+		if (afkData.afk == true) return message.channel.send('**🤔 - You\'re already AFKing .**');
+
+		afkData.staff = message.author.id;
+		afkData.afk = true;
+		afkData.message = args.join(' ');
+		afkData.save();
+
+		message.channel.send(`**✅ - Successfully set your AFK's status to:**\n\`${afkData.message}\``,);
 		message.member.setNickname(`• AFK | ${message.member.displayName}`);
 	},
 };

@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'reply',
@@ -8,12 +9,13 @@ module.exports = {
 	args: true,
 	cooldown: 5000,
 	run: async (client, message, args) => {
-		const roles = await client.db.get('sugg_role');
-		if (!message.member.roles.cache.some(role => roles.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
+		const roles = await settingSchema.findOne({option:'suggrole'});
+		const channel = await settingSchema.findOne({option:'suggestions'});
+		if (!message.member.roles.cache.some(role => roles.setting.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
 		const [id, ...reply] = args;
 		if (!reply.length) {return message.channel.send('**🤔 - Please provide a reply to post .**');}
 		client.channels.cache
-			.get(await client.db.get('sugg_channel'))
+			.get(channel.setting)
 			.messages.fetch(id)
 			.then((msg) => {
 				const embed = new MessageEmbed(msg.embeds[0]);

@@ -1,3 +1,6 @@
+const settingSchema = require('../../Models/settingModel');
+const settings = ['suggestions', 'welcome', 'applyget', 'applysend', 'family', 'event', 'ticket', 'staff', 'suggrole'];
+
 module.exports = {
 	name: 'setting',
 	desc: 'Change bot\'s setting in the server',
@@ -8,148 +11,95 @@ module.exports = {
 	cooldown: 3000,
 	run: async (client, message, args) => {
 		const [setting, ...newset] = args;
-		if (setting == 'suggestions') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current suggestion channel is <#${await client.db.get(
-						'sugg_channel',
-					)}> .**`,
-				);
-			}
+
+		if (!settings.includes(setting.toLowerCase())) {
+			return message.channel.send(
+				`**⚠️ - Invalid option, try one of those: \`${settings.map((v) => client.bettercase(v)).join('`, `')}\` .**`);
+		}
+
+		settings.forEach(async set => {
+			const settingData = await settingSchema.findOne({ option: set })
+				? await settingSchema.findOne({ option: set })
+				: new settingSchema({
+					option: set,
+					setting: null,
+				});
+			settingData.save();
+		});
+
+		const settingData = await settingSchema.findOne({ option: setting });
+
+
+		if (setting.toLowerCase() == 'suggestions') {
+			if (!newset[0]) {return message.channel.send(`**🔍 - Current suggestion channel is <#${settingData.setting}> .**`);}
 			else {
-				const channel =
-					message.mentions.channels.first() ||
-					client.channels.cache.get(newset[0]);
-				if (!channel) {
-					return message.channel.send(
-						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('sugg_channel', channel.id);
-				message.channel.send(
-					`**✅ Successfully set suggestions channel to <#${channel.id}> .**`,
-				);
+				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
+				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
+				settingData.setting = channel.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set suggestions channel to <#${channel.id}> .**`);
 			}
 		}
-		if (setting == 'welcome') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current welcome channel is <#${await client.db.get(
-						'welcome_channel',
-					)}> .**`,
-				);
-			}
+
+		if (setting.toLowerCase() == 'welcome') {
+			if (!newset[0]) {return message.channel.send(`**🔍 - Current welcome channel is <#${settingData.setting}> .**`);}
 			else {
-				const channel =
-					message.mentions.channels.first() ||
-					client.channels.cache.get(newset[0]);
-				if (!channel) {
-					return message.channel.send(
-						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('welcome_channel', channel.id);
-				message.channel.send(
-					`**✅ Successfully set welcome channel to <#${channel.id}> .**`,
-				);
+				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
+				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
+				settingData.setting = channel.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set welcome channel to <#${channel.id}> .**`);
 			}
 		}
-		if (setting == 'apply') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current apply channel is <#${await client.db.get(
-						'apply_channel',
-					)}> .**`,
-				);
-			}
-			else if (newset[0] == 'send') {
-				const channel =
-					message.mentions.channels.first() ||
-					client.channels.cache.get(newset[1]);
-				if (!channel) {
-					return message.channel.send(
-						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('applysend_channel', channel.id);
-				message.channel.send(
-					`**✅ Successfully set applications channel to <#${channel.id}> .**`,
-				);
-			}
+
+		if (setting.toLowerCase() == 'applyget') {
+			if (!newset[0]) {return message.channel.send(`**🔍 - Current apply getting channel is <#${settingData.setting}> .**`);}
 			else {
-				const channel =
-					message.mentions.channels.first() ||
-					client.channels.cache.get(newset[0]);
-				if (!channel) {
-					return message.channel.send(
-						'**⚠️ - Invalid channel, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('apply_channel', channel.id);
-				message.channel.send(
-					`**✅ Successfully set apply channel to <#${channel.id}> .**`,
-				);
+				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
+				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
+				settingData.setting = channel.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set apply channel to <#${channel.id}> .**`);
 			}
 		}
-		if (setting == 'family') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current family role is \`${message.guild.roles.cache.get(await client.db.get('fam_role')).name
-					}\` .**`,
-				);
-			}
+
+		if (setting.toLowerCase() == 'applysend') {
+			if (!newset[0]) {return message.channel.send(`**🔍 - Current apply sending channel is <#${settingData.setting}> .**`);}
 			else {
-				const role =
-					message.mentions.roles.first() ||
-					message.guild.roles.cache.get(newset[0]);
-				if (!role) {
-					return message.channel.send(
-						'**⚠️ - Invalid role, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('fam_role', role.id);
-				message.channel.send(
-					`**✅ Successfully set family role to \`${role.name}\` .**`,
-				);
+				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[1]);
+				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
+				settingData.setting = channel.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set applications channel to <#${channel.id}> .**`);
 			}
 		}
-		if (setting == 'event') {
-			if (!newset[0]) {
-				message.channel.send(
-					`**🔍 - Current event role is \`${message.guild.roles.cache.get(await client.db.get('event_role'))
-						.name
-					}\` .**`,
-				);
-			}
+
+		if (setting.toLowerCase() == 'family') {
+			if (!newset[0]) {return message.channel.send(`**🔍 - Current family role is \`${message.guild.roles.cache.get(settingData.setting).name}\` .**`);}
 			else {
-				const role =
-					message.mentions.roles.first() ||
-					message.guild.roles.cache.get(newset[0]);
-				if (!role) {
-					return message.channel.send(
-						'**⚠️ - Invalid role, please provide a mention or an ID .**',
-					);
-				}
-				await client.db
-					.set('event_role', role.id);
-				message.channel.send(
-					`**✅ Successfully set event role to \`${role.name}\` .**`,
-				);
+				const role = message.mentions.roles.first() || message.guild.roles.cache.get(newset[0]);
+				if (!role) return message.channel.send('**⚠️ - Invalid role, please provide a mention or an ID .**');
+				settingData.setting = role.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set family role to \`${role.name}\` .**`);
 			}
 		}
-		if (setting == 'ticket') {
+
+		if (setting.toLowerCase() == 'event') {
+			if (!newset[0]) {return message.channel.send(`**🔍 - Current event role is \`${message.guild.roles.cache.get(settingData.setting).name}\` .**`);}
+			else {
+				const role = message.mentions.roles.first() || message.guild.roles.cache.get(newset[0]);
+				if (!role) return message.channel.send('**⚠️ - Invalid role, please provide a mention or an ID .**');
+				settingData.setting = role.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set event role to \`${role.name}\` .**`);
+			}
+		}
+
+		if (setting.toLowerCase() == 'ticket') {
 			if (!newset[0]) {
-				const cate = await client.db.get('ticket_ch');
-				message.channel.send(
-					`**🔍 - Current tickets category/s: \`${cate
-						.map((value) => message.guild.channels.cache.get(value).name)
-						.join('`, `')}\` .**`,
-				);
+				const cate = settingData.setting;
+				message.channel.send(`**🔍 - Current tickets category/s: \`${cate.map((value) => message.guild.channels.cache.get(value).name).join('`, `')}\` .**`);
 			}
 			else {
 				const todb = [];
@@ -159,23 +109,16 @@ module.exports = {
 					if (room.type !== 'category') return;
 					todb.push(room.id);
 				});
-				await client.db.set('ticket_ch',
-					todb);
-				message.channel.send(
-					`**🔍 - Successfully set tickets category/s to: \`${todb
-						.map((value) => message.guild.channels.cache.get(value).name)
-						.join('`, `')}\` .**`,
-				);
+				settingData.setting = todb;
+				settingData.save();
+				message.channel.send(`**🔍 - Successfully set tickets category/s to: \`${todb.map((value) => message.guild.channels.cache.get(value).name).join('`, `')}\` .**`);
 			}
 		}
-		if (setting == 'staff') {
+
+		if (setting.toLowerCase() == 'staff') {
 			if (!newset[0]) {
-				const role = await client.db.get('staff_role');
-				message.channel.send(
-					`**🔍 - Current staff role/s: \`${role
-						.map((value) => message.guild.roles.cache.get(value).name)
-						.join('`, `')}\` .**`,
-				);
+				const roles = settingData.setting;
+				message.channel.send(`**🔍 - Current staff role/s: \`${roles.map((value) => message.guild.roles.cache.get(value).name).join('`, `')}\` .**`);
 			}
 			else {
 				const todb = [];
@@ -184,23 +127,16 @@ module.exports = {
 					if (!role) return;
 					todb.push(role.id);
 				});
-				await client.db.set('staff_role',
-					todb);
-				message.channel.send(
-					`**🔍 - Successfully set staff role/s to: \`${todb
-						.map((value) => message.guild.roles.cache.get(value).name)
-						.join('`, `')}\` .**`,
-				);
+				settingData.setting = todb;
+				settingData.save();
+				message.channel.send(`**🔍 - Successfully set staff role/s to: \`${todb.map((value) => message.guild.roles.cache.get(value).name).join('`, `')}\` .**`);
 			}
 		}
-		if (setting == 'suggrole') {
+
+		if (setting.toLowerCase() == 'suggrole') {
 			if (!newset[0]) {
-				const role = await client.db.get('sugg_role');
-				message.channel.send(
-					`**🔍 - Current suggestion role/s: \`${role
-						.map((value) => message.guild.roles.cache.get(value).name)
-						.join('`, `')}\` .**`,
-				);
+				const roles = settingData.setting;
+				message.channel.send(`**🔍 - Current suggestion role/s: \`${roles.map((value) => message.guild.roles.cache.get(value).name).join('`, `')}\` .**`);
 			}
 			else {
 				const todb = [];
@@ -209,13 +145,9 @@ module.exports = {
 					if (!role) return;
 					todb.push(role.id);
 				});
-				await client.db.set('sugg_role',
-					todb);
-				message.channel.send(
-					`**🔍 - Successfully set suggestion role/s to: \`${todb
-						.map((value) => message.guild.roles.cache.get(value).name)
-						.join('`, `')}\` .**`,
-				);
+				settingData.setting = todb;
+				settingData.save();
+				message.channel.send(`**🔍 - Successfully set suggestion role/s to: \`${todb.map((value) => message.guild.roles.cache.get(value).name).join('`, `')}\` .**`);
 			}
 		}
 	},

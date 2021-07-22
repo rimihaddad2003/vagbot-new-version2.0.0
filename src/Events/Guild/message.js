@@ -1,5 +1,6 @@
 const ms = require('ms');
 const leven = require('leven');
+const maint = require('../../Models/maintenanceModel');
 
 module.exports = {
 	name: 'message',
@@ -39,10 +40,8 @@ module.exports = {
 			}
 		}
 
-		if (
-			message.author.id !== client.owner &&
-			(await client.db.get(`${command.name}_maint`)) == 'yes'
-		) { return message.channel.send('**🚧 - This command under maintenance .**'); }
+		const maintd = await maint.findOne({ commandname: command.name });
+		if (message.author.id !== client.owner && maintd.maintenance == true) return message.channel.send('**🚧 - This command under maintenance .**');
 
 		if (
 			command.perms &&

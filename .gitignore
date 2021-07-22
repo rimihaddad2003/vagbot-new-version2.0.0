@@ -107,3 +107,5 @@ dist
 
 # Test command
 src/Commands/Config/test.js
+
+package-lock.json

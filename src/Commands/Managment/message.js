@@ -1,6 +1,5 @@
-const {
-	MessageEmbed,
-} = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'message',
@@ -11,10 +10,10 @@ module.exports = {
 	args: true,
 	cooldown: 5000,
 	run: async (client, message, args) => {
-		const channels = await client.db.get('ticket_ch');
-		if (!channels.includes(message.channel.parentID)) return;
-		const roles = await client.db.get('staff_role');
-		if (!message.member.roles.cache.some(role => roles.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
+		const channels = await settingSchema.findOne({option:'ticket'});
+		if (!channels.setting.includes(message.channel.parentID)) return;
+		const roles = await settingSchema.findOne({option:'staff'})
+		if (!message.member.roles.cache.some(role => roles.setting.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
 		const send = (photo) => {
 			const embed = new MessageEmbed()
 				.setTitle(`# - ${client.botname}Staff`)

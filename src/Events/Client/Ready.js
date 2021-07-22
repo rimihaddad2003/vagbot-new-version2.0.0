@@ -1,11 +1,13 @@
 const request = require('request');
 const url = 'https://api.mcsrvstat.us/2/vagmemes.com';
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'ready',
 	run: (client) => {
 		setInterval(async () => {
-			const prestatus = await client.db.get('prestatus');
+			const settingData = await settingSchema.findOne({ option: 'status' });
+			const prestatus = settingData.setting;
 			let aftervar = prestatus.name;
 			if (prestatus.name.includes('{mcp}')) {
 				request(url, (err, response, body) => {

@@ -1,4 +1,5 @@
 const leven = require('leven');
+const maintSchema = require('../../Models/maintenanceModel');
 
 module.exports = {
 	name: 'maintenance',
@@ -35,28 +36,26 @@ module.exports = {
 				);
 			}
 		}
-		if (
-			args[1] == 'status' &&
-			(await client.db.get(`${command.name}_maint`)) == 'yes'
-		) {
-			return message.channel.send(
-				'**🔴 - This command currently under maintenance .**',
-			);
-		}
-		if (
-			args[1] == 'status' &&
-			(await client.db.get(`${command.name}_maint`)) == 'no'
-		) { return message.channel.send('**🟢 - This command is working .**'); }
-		if ((await client.db.get(`${command.name}_maint`)) == 'no') {
-			await client.db
-				.set(`${command.name}_maint`, 'yes');
+		const maintData = await maintSchema.findOne({ commandname: command.name })
+			? await maintSchema.findOne({ commandname: command.name })
+			: new maintSchema({
+				commandname: command.name,
+				maintenance: false,
+			});
+		maintData.save();
+
+		if (args[1] == 'status' && maintData.maintenance == true) return message.channel.send('**🔴 - This command currently under maintenance .**');
+		if (args[1] == 'status' && maintData.maintenance == false) return message.channel.send('**🟢 - This command is working .**');
+		if (maintData.maintenance == false) {
+			maintData.maintenance = true;
+			maintData.save();
 			message.channel.send(
 				'**✅ - Successfully turned on command maintenance .**',
 			);
 		}
 		else {
-			await client.db
-				.set(`${command.name}_maint`, 'no');
+			maintData.maintenance = false;
+			maintData.save();
 			message.channel.send('**✅ - Successfully turned off command maintenance .**');
 		}
 	},

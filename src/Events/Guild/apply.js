@@ -1,11 +1,14 @@
 const { MessageEmbed } = require('discord.js');
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'message',
 	run: async (client, message) => {
-		if (message.channel.id !== await client.db.get('apply_channel')) return;
+		const channel1 = await settingSchema.findOne({ option: 'applyget' });
+		const channel2 = await settingSchema.findOne({ option: 'applysend' });
+		if (message.channel.id !== channel1.setting) return;
 		if (message.author.bot) return;
-		const channel = client.channels.cache.get(await client.db.get('applysend_channel'));
+		const channel = client.channels.cache.get(channel2.setting);
 		const embed = new MessageEmbed()
 			.setTitle(`# - ${client.botname}Apply`)
 			.setDescription(message.content)

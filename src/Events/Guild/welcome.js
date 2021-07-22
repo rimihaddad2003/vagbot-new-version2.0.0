@@ -8,11 +8,12 @@ const {
 } = require('discord.js');
 const wlcimg = `${__dirname}/../../Photos/Welcome.png`;
 registerFont(`${__dirname}/../../Fonts/Changa.ttf`, { family: 'Changa' });
-
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'guildMemberAdd',
 	run: async (client, member) => {
+		const channel = await settingSchema.findOne({ option: 'welcome' });
 		if (member.guild.id !== '592265927819788289') return;
 		const messages = [
 			`**• Everyone, please welcome ${member} !**`,
@@ -55,7 +56,6 @@ module.exports = {
 		ctx.fillText(member.user.username, 510, 375);
 
 		const attachment = new MessageAttachment(canvas.toBuffer());
-		const channel = await client.db.get('welcome_channel');
-		client.channels.cache.get(channel).send(messages[Math.floor(Math.random() * messages.length)], attachment);
+		client.channels.cache.get(channel.setting).send(messages[Math.floor(Math.random() * messages.length)], attachment);
 	},
 };
