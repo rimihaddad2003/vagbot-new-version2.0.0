@@ -9,8 +9,8 @@ module.exports = {
 	args: true,
 	cooldown: 5000,
 	run: async (client, message, args) => {
-		const roles = await settingSchema.findOne({option:'suggrole'});
-		const channel = await settingSchema.findOne({option:'suggestions'});
+		const roles = await settingSchema.findOne({ option:'suggrole' });
+		const channel = await settingSchema.findOne({ option:'suggestions' });
 		if (!message.member.roles.cache.some(role => roles.setting.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
 		const [id, ...reply] = args;
 		if (!reply.length) {return message.channel.send('**🤔 - Please provide a reply to post .**');}

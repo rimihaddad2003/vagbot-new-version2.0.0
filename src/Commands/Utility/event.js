@@ -6,8 +6,8 @@ module.exports = {
 	desc: 'start or end an event by reaction roles',
 	category: 'utility',
 	cooldown: 1000,
-	run: async (client, message, args) => {
-		const role = await settingSchema.findOne({ option: 'event' })
+	run: async (client, message) => {
+		const role = await settingSchema.findOne({ option: 'event' });
 		if (!message.member.roles.cache.has(role.setting)) return message.channel.send('**⚠️ - You don\'t have the required role .**');
 		const settingData = await settingSchema.findOne({ option: 'eventnoti' })
 			? await settingSchema.findOne({ option: 'eventnoti' })
@@ -44,10 +44,10 @@ module.exports = {
 							color: 'BLUE',
 						},
 					})
-					.then(async (role) => {
+					.then(async (role1) => {
 						const option = {
 							msg: msg.id,
-							role: role.id,
+							role: role1.id,
 						};
 						settingData.setting = option;
 						settingData.save();

@@ -27,7 +27,7 @@ module.exports = {
 		afkData.message = args.join(' ');
 		afkData.save();
 
-		message.channel.send(`**✅ - Successfully set your AFK's status to:**\n\`${afkData.message}\``,);
+		message.channel.send(`**✅ - Successfully set your AFK's status to:**\n\`${afkData.message}\``);
 		message.member.setNickname(`• AFK | ${message.member.displayName}`);
 	},
 };

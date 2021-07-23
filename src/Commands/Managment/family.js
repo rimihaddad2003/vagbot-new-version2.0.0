@@ -1,5 +1,5 @@
 const { MessageEmbed } = require('discord.js');
-const familySchema = require('../../Models/settingModel')
+const familySchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'family',
@@ -8,7 +8,7 @@ module.exports = {
 	perms: ['MANAGE_NICKNAMES'],
 	cooldown: 5000,
 	run: async (client, message) => {
-		const role = await familySchema.findOne({option: 'family'});
+		const role = await familySchema.findOne({ option: 'family' });
 		const norole = (m) =>
 			!m.user.bot && m.user.username.toLowerCase().includes('vag') && !m.roles.cache.has(role.setting);
 		const withrole = (m) =>
