@@ -18,7 +18,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle(`# - ${client.botname}Log`)
-			.setDescription(`**• Command »** ${command.name} .\n**• Member »** ${message.author.username} .\n**• ID »** ${message.author.id} .\n**• Channel »** <#${message.channel.id}> .\n**• Link »** ${message.url} .`)
+			.setDescription(`**• Command »** ${command.name} .\n**• Message »** ${message.content}\n**• Member »** ${message.author.username} .\n**• ID »** ${message.author.id} .\n**• Channel »** <#${message.channel.id}> .\n**• Link »** ${message.url} .`)
 			.setThumbnail(message.guild.iconURL({ dynamic: true }))
 			.setColor(client.color);
 		client.channels.cache.get('868112856762175550').send(embed);
