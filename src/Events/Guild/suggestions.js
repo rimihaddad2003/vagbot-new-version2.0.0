@@ -6,7 +6,7 @@ module.exports = {
 	run: async (client, message) => {
 		const channel = await settingSchema.findOne({ option: 'suggestions' });
 		if (message.author.bot) return;
-		if (message.channel.id !== channel.setting) return;
+		if (message.channel.id !== channel.setting && message.channel.id !== '868549115062145085') return;
 		const embed = new MessageEmbed()
 			.setColor(client.color)
 			.setTitle(`# - ${client.botname}Suggestion`)
