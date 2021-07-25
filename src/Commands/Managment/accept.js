@@ -7,7 +7,7 @@ module.exports = {
 	cooldown: 5000,
 	perms: ['MANAGE_ROLES'],
 	run: (client, message, args) => {
-		if (message.guild.id !== '592265927819788289') return message.channel.send('**• This command works in Vagmemes Discord Server only .');
+		if (message.guild.id !== '592265927819788289') return message.channel.send('**• This command works in Vagmemes Discord Server only .**');
 		const mem = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 		if (!mem) return message.channel.send('**🤔 - Please provide a valid user .**');
 		message.channel.send(`**• Are you sure you want to accept __${mem.user.username}__ ?**`).then(msg => {
