@@ -9,6 +9,7 @@ module.exports = {
 			const settingData = await settingSchema.findOne({ option: 'status' });
 			const prestatus = settingData.setting;
 			let aftervar = prestatus.name;
+			console.log(prestatus);
 			if (prestatus.name.includes('{mcp}')) {
 				request(url, (err, response, body) => {
 					if (err) {
