@@ -7,39 +7,39 @@ module.exports = {
 	run: (client) => {
 		setInterval(async () => {
 			const settingData = await settingSchema.findOne({ option: 'status' });
-			const prestatus = settingData.setting;
-			let aftervar = prestatus.name;
-			console.log(prestatus);
-			if (prestatus.name.includes('{mcp}')) {
+			const status = settingData.setting;
+			const name = status.name;
+			let aftername = status.name;
+			if (name.includes('{mcp}')) {
 				request(url, (err, response, body) => {
 					if (err) {
 						console.log(err);
-						return (aftervar = aftervar.replace('{mcp}', 'Error'));
+						return (aftername = aftername.replace('{mcp}', 'Error'));
 					}
 					body = JSON.parse(body);
-					if (!body.online) aftervar = aftervar.replace('{mcp}', 'Offline');
-					else aftervar = aftervar.replace('{mcp}', body.players.online);
+					if (!body.online) aftername = aftername.replace('{mcp}', 'Offline');
+					else aftername = aftername.replace('{mcp}', body.players.online);
 				});
 			}
-			if (prestatus.name.includes('{dsm}')) {
-				aftervar = aftervar.replace(
+			if (name.includes('{dsm}')) {
+				aftername = aftername.replace(
 					'{dsm}',
-					client.guilds.cache.get(prestatus.guild).memberCount,
+					client.guilds.cache.get(status.guild).memberCount,
 				);
 			}
-			if (prestatus.name.includes('{dso}')) {
-				aftervar = aftervar.replace(
+			if (status.name.includes('{dso}')) {
+				aftername = aftername.replace(
 					'{dso}',
 					client.guilds.cache
-						.get(prestatus.guild)
+						.get(status.guild)
 						.members.cache.filter((u) => u.presence.status !== 'offline').size,
 				);
 			}
 			setTimeout(() => {
 				client.user.setPresence({
 					activity: {
-						name: aftervar,
-						type: prestatus.type,
+						name: aftername,
+						type: status.type,
 					},
 				});
 			}, 2000);
