@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'vote',
 	desc: 'Ask the members to vote for something',
-	category: 'management',
+	category: 'staff',
 	perms: ['MANAGE_GUILD', 'MANAGE_MESSAGES'],
 	usage: '<message>',
 	args: true,

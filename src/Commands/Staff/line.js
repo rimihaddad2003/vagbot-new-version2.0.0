@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'line',
 	desc: 'Send a line photo to separate two messages',
-	category: 'management',
+	category: 'staff',
 	perms: ['MANAGE_MESSAGES'],
 	cooldown: 5000,
 	run: (client, message) => {

@@ -4,7 +4,7 @@ const afkModel = require('../../Models/afkModel');
 module.exports = {
 	name: 'afk',
 	desc: 'Set your status to AFK',
-	category: 'management',
+	category: 'staff',
 	usage: '<message>',
 	args: true,
 	cooldown: 10000,

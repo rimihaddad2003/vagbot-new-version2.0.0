@@ -4,7 +4,7 @@ const settingSchema = require('../../Models/settingModel');
 module.exports = {
 	name: 'reply',
 	desc: 'Reply to a suggestion sent in the channel',
-	category: 'management',
+	category: 'staff',
 	usage: '<message id> <reply>',
 	args: true,
 	cooldown: 5000,

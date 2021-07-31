@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'accept',
 	desc: 'Accept someone\'s application',
-	category: 'management',
+	category: 'staff',
 	usage: '<member>',
 	args: true,
 	cooldown: 5000,

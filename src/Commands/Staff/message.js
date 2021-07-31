@@ -4,7 +4,7 @@ const settingSchema = require('../../Models/settingModel');
 module.exports = {
 	name: 'message',
 	desc: 'Send messages in the tickets',
-	category: 'hidden',
+	category: 'staff',
 	aliases: ['m'],
 	usage: '<message>',
 	args: true,

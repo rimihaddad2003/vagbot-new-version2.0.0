@@ -1,5 +1,5 @@
 const settingSchema = require('../../Models/settingModel');
-const settings = ['suggestions', 'welcome', 'applyget', 'applysend', 'family', 'event', 'ticket', 'staff', 'suggrole'];
+const settings = ['suggestions', 'welcome', 'applyget', 'applysend', 'family', 'event', 'ticket', 'staff', 'suggrole', 'ticketclosed'];
 
 module.exports = {
 	name: 'setting',
@@ -31,7 +31,7 @@ module.exports = {
 
 
 		if (setting.toLowerCase() == 'suggestions') {
-			if (!newset[0]) {return message.channel.send(`**🔍 - Current suggestion channel is <#${settingData.setting}> .**`);}
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current suggestion channel is <#${settingData.setting}> .**`); }
 			else {
 				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
 				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
@@ -42,7 +42,7 @@ module.exports = {
 		}
 
 		if (setting.toLowerCase() == 'welcome') {
-			if (!newset[0]) {return message.channel.send(`**🔍 - Current welcome channel is <#${settingData.setting}> .**`);}
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current welcome channel is <#${settingData.setting}> .**`); }
 			else {
 				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
 				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
@@ -53,7 +53,7 @@ module.exports = {
 		}
 
 		if (setting.toLowerCase() == 'applyget') {
-			if (!newset[0]) {return message.channel.send(`**🔍 - Current apply getting channel is <#${settingData.setting}> .**`);}
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current apply getting channel is <#${settingData.setting}> .**`); }
 			else {
 				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
 				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
@@ -64,7 +64,7 @@ module.exports = {
 		}
 
 		if (setting.toLowerCase() == 'applysend') {
-			if (!newset[0]) {return message.channel.send(`**🔍 - Current apply sending channel is <#${settingData.setting}> .**`);}
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current apply sending channel is <#${settingData.setting}> .**`); }
 			else {
 				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[1]);
 				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
@@ -75,7 +75,7 @@ module.exports = {
 		}
 
 		if (setting.toLowerCase() == 'family') {
-			if (!newset[0]) {return message.channel.send(`**🔍 - Current family role is \`${message.guild.roles.cache.get(settingData.setting).name}\` .**`);}
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current family role is \`${message.guild.roles.cache.get(settingData.setting).name}\` .**`); }
 			else {
 				const role = message.mentions.roles.first() || message.guild.roles.cache.get(newset[0]);
 				if (!role) return message.channel.send('**⚠️ - Invalid role, please provide a mention or an ID .**');
@@ -86,7 +86,7 @@ module.exports = {
 		}
 
 		if (setting.toLowerCase() == 'event') {
-			if (!newset[0]) {return message.channel.send(`**🔍 - Current event role is \`${message.guild.roles.cache.get(settingData.setting).name}\` .**`);}
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current event role is \`${message.guild.roles.cache.get(settingData.setting).name}\` .**`); }
 			else {
 				const role = message.mentions.roles.first() || message.guild.roles.cache.get(newset[0]);
 				if (!role) return message.channel.send('**⚠️ - Invalid role, please provide a mention or an ID .**');
@@ -112,6 +112,21 @@ module.exports = {
 				settingData.setting = todb;
 				settingData.save();
 				message.channel.send(`**🔍 - Successfully set tickets category/s to: \`${todb.map((value) => message.guild.channels.cache.get(value).name).join('`, `')}\` .**`);
+			}
+		}
+
+		if (setting.toLowerCase() == 'ticketclosed') {
+			if (!newset[0]) {
+				const cate = settingData.setting;
+				message.channel.send(`**🔍 - Current closed tickets category: \`${message.guild.channels.cache.get(cate).name}\` .**`);
+			}
+			else {
+				const room = message.guild.channels.cache.get(newset[0]);
+				if (!room) return;
+				if (room.type !== 'category') return;
+				settingData.setting = room.id;
+				settingData.save();
+				message.channel.send(`**🔍 - Successfully set tickets category to: \`${message.guild.channels.cache.get(room.id).name}\` .**`);
 			}
 		}
 

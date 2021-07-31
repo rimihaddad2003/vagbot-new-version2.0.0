@@ -42,7 +42,7 @@ module.exports = {
 			}
 		}
 		catch (err) {
-			message.channel.send(`**❌ - An error occurred 	n\`\`\`${err.message}\`\`\``).then((msg) => msg.delete({ timeout: 3000 }));
+			message.channel.send(`**❌ - An error occurred .**\n\`\`\`${err.message}\`\`\``).then((msg) => msg.delete({ timeout: 3000 }));
 			console.error(err);
 		}
 	},
