@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const settingSchema = require('../../Models/settingModel');
+const ticketSchema = require('../../Models/ticketModel');
 const ms = require('pretty-ms');
 
 module.exports = {
@@ -9,17 +10,25 @@ module.exports = {
 	aliases: ['reg'],
 	usage: '<subject>',
 	args: true,
-	cooldown: 5000,
+	cooldown: 20000,
 	run: async (client, message, args) => {
 		const channels = await settingSchema.findOne({ option: 'ticketclosed' });
 		if (!channels.setting.includes(message.channel.parentID)) return;
 		const roles = await settingSchema.findOne({ option: 'staff' });
 		if (!message.member.roles.cache.some(role => roles.setting.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
 
+		const ticketData = await ticketSchema.findOne({ staff: message.author.id })
+			? await ticketSchema.findOne({ staff: message.author.id })
+			: new ticketSchema({
+				staff: message.author.id,
+				points: 0,
+			});
+		ticketData.save();
+
 		async function fetcher(channel) {
 			const sum_messages = [];
 			let last_id;
-			for (;;) {
+			for (; ;) {
 				const options = { limit: 100 };
 				if (last_id) {
 					options.before = last_id;
@@ -35,7 +44,7 @@ module.exports = {
 			}
 			return sum_messages;
 		}
-		const subject = args.join();
+		const subject = args.join(' ');
 		const messages = await fetcher(message.channel);
 		const first = messages[messages.length - 1];
 		let last;
@@ -54,7 +63,12 @@ module.exports = {
 			.setTitle(`# - ${client.botname}Ticket`)
 			.setThumbnail('https://images-ext-1.discordapp.net/external/OQVxBXI1gsuShsNjUj9FS23G-g7octCTS3sSi-iwGdY/https/cdn.discordapp.com/avatars/860570645208104981/18478085c0241e0ec8a8edebf823ea6e.webp')
 			.setDescription(`• Name » ${user.username}\n• ID » ${user.id}\n• Staff » ${message.author}\n• Subject » ${subject}\n• Channel » <#${message.channel.id}>\n• Number » ${number}\n• Time » ${time}`)
-			.setTimestamp();
-		message.channel.send(embed);
+			.setTimestamp()
+			.setFooter(`• Ticket number » ${ticketData.points + 1}`);
+		client.channels.cache.get('861357782795026432').send(embed).then(() => {
+			ticketData.points++;
+			ticketData.save();
+			message.channel.send('**✅ - Successfully registered the ticket .**');
+		});
 	},
 };
