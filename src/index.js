@@ -16,6 +16,7 @@ const client = new Client({
 	},
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
 });
+require('discord-buttons')(client);
 const mongoose = require('mongoose');
 const maintSchema = require('./Models/maintenanceModel');
 
