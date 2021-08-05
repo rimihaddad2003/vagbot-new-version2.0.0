@@ -29,8 +29,7 @@ module.exports = {
 				else if (collected.first().id == 'button2') {
 					collected.first().reply.send('**Canceled .**');
 				}
-			});
+			}).catch(() => message.channel.send('**⌛ - You didn\'t accept remove nicknames from all member .**'));
 		});
-
 	},
 };
