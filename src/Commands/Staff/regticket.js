@@ -1,13 +1,13 @@
 const { MessageEmbed } = require('discord.js');
 const settingSchema = require('../../Models/settingModel');
-const ticketSchema = require('../../Models/ticketModel');
+const pointsSchema = require('../../Models/pointsModel');
 const ms = require('pretty-ms');
 
 module.exports = {
-	name: 'register',
+	name: 'regticket',
 	desc: 'Register the tickets in the Staff\'s Server',
-	category: 'hidden',
-	aliases: ['reg'],
+	category: 'staff',
+	aliases: ['rt'],
 	usage: '<subject>',
 	args: true,
 	cooldown: 20000,
@@ -17,13 +17,14 @@ module.exports = {
 		const roles = await settingSchema.findOne({ option: 'staff' });
 		if (!message.member.roles.cache.some(role => roles.setting.includes(role.id))) return message.channel.send('**🚫 - This command is for staff only .**');
 
-		const ticketData = await ticketSchema.findOne({ staff: message.author.id })
-			? await ticketSchema.findOne({ staff: message.author.id })
-			: new ticketSchema({
+		const pointsData = await pointsSchema.findOne({ staff: message.author.id })
+			? await pointsSchema.findOne({ staff: message.author.id })
+			: new pointsSchema({
 				staff: message.author.id,
-				points: 0,
+				tickets: 0,
+				proofs: 0,
 			});
-		ticketData.save();
+		pointsData.save();
 
 		async function fetcher(channel) {
 			const sum_messages = [];
@@ -64,10 +65,10 @@ module.exports = {
 			.setThumbnail('https://images-ext-1.discordapp.net/external/OQVxBXI1gsuShsNjUj9FS23G-g7octCTS3sSi-iwGdY/https/cdn.discordapp.com/avatars/860570645208104981/18478085c0241e0ec8a8edebf823ea6e.webp')
 			.setDescription(`• Name » ${user.username}\n• ID » ${user.id}\n• Staff » ${message.author}\n• Subject » ${subject}\n• Channel » <#${message.channel.id}>\n• Number » ${number}\n• Time » ${time}`)
 			.setTimestamp()
-			.setFooter(`• Ticket number » ${ticketData.points + 1}`);
+			.setFooter(`• Ticket number » ${pointsData.tickets + 1}`);
 		client.channels.cache.get('861357782795026432').send(embed).then(() => {
-			ticketData.points++;
-			ticketData.save();
+			pointsData.tickets++;
+			pointsData.save();
 			message.channel.send('**✅ - Successfully registered the ticket .**');
 		});
 	},

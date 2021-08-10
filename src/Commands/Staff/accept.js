@@ -9,7 +9,6 @@ module.exports = {
 	cooldown: 5000,
 	perms: ['MANAGE_ROLES'],
 	run: (client, message, args) => {
-		if (message.guild.id !== '592265927819788289') return message.channel.send('**• This command works in Vagmemes Discord Server only .**');
 		const mem = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 		if (!mem) return message.channel.send('**🤔 - Please provide a valid user .**');
 		const button1 = new MessageButton()
