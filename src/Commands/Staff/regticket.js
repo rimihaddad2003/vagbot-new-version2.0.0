@@ -66,10 +66,10 @@ module.exports = {
 			.setDescription(`• Name » ${user.username}\n• ID » ${user.id}\n• Staff » ${message.author}\n• Subject » ${subject}\n• Channel » <#${message.channel.id}>\n• Number » ${number}\n• Time » ${time}`)
 			.setTimestamp()
 			.setFooter(`• Ticket number » ${pointsData.tickets + 1}`);
-		client.channels.cache.get('861357782795026432').send(embed).then(() => {
+		client.channels.cache.get('861357782795026432').send(embed).then(msg => {
 			pointsData.tickets++;
 			pointsData.save();
-			message.channel.send('**✅ - Successfully registered the ticket .**');
+			message.channel.send(`**✅ - Successfully registered the ticket .**\n${msg.url}`);
 		});
 	},
 };
