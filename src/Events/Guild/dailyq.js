@@ -1,11 +1,13 @@
 const { MessageEmbed } = require('discord.js');
+const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
 	name: 'message',
 	run: async (client, message) => {
 		const channelid = '870731334467846184';
 		if (message.channel.id !== channelid) return;
-		if (message.author.bot || message.author.id == client.owner || message.author.id == '816369596184657921') return;
+		const role = await settingSchema.findOne({ option: 'event' });
+		if (message.member.roles.cache.has(role.setting)) return;
 		const channel = client.channels.cache.get(channelid);
 		const embed = new MessageEmbed()
 			.setTitle(`# - ${client.botname}DailyQ`)

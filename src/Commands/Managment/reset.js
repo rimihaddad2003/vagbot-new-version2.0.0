@@ -14,9 +14,9 @@ module.exports = {
 				'**⚠️ - Please provide a valid user ID or a mention instead .**',
 			);
 		}
-		message.channel.permissionOverwrites
-			.get(user.id)
-			.delete()
+		const perms = message.channel.permissionOverwrites.get(user.id);
+		if (!perms) return message.channel.send(`**🤔 - ${user} don't have any permissions in this channel to reset .**`);
+		perms.delete()
 			.then(() =>
 				message.channel.send(
 					`**✅ - Successfully reset ${user}'s permissions in this channel .**`,
