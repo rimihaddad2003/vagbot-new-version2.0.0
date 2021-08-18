@@ -1,4 +1,4 @@
-const { MessageEmbed, Message } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
@@ -6,12 +6,6 @@ module.exports = {
 	desc: 'start or end an event by reaction roles',
 	category: 'utility',
 	cooldown: 1000,
-	/**
-	 * 
-	 * @param {*} client 
-	 * @param {Message} message 
-	 * @returns 
-	 */
 	run: async (client, message) => {
 		const role = await settingSchema.findOne({ option: 'event' });
 		if (!message.member.roles.cache.has(role.setting)) return message.channel.send('**⚠️ - You don\'t have the required role .**');
