@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Message } = require('discord.js');
 const settingSchema = require('../../Models/settingModel');
 
 module.exports = {
@@ -6,6 +6,12 @@ module.exports = {
 	desc: 'start or end an event by reaction roles',
 	category: 'utility',
 	cooldown: 1000,
+	/**
+	 * 
+	 * @param {*} client 
+	 * @param {Message} message 
+	 * @returns 
+	 */
 	run: async (client, message) => {
 		const role = await settingSchema.findOne({ option: 'event' });
 		if (!message.member.roles.cache.has(role.setting)) return message.channel.send('**⚠️ - You don\'t have the required role .**');
@@ -13,7 +19,7 @@ module.exports = {
 			? await settingSchema.findOne({ option: 'eventnoti' })
 			: new settingSchema({
 				option: 'eventnoti',
-				setting: 'id',
+				setting: false,
 			});
 		settingData.save();
 		if (settingData.setting == false) {
@@ -35,7 +41,7 @@ module.exports = {
 				.setDescription(
 					'• If you want to receive this event\'s notifications, click on the 🎉 below .\n• إذا كنت تريد أن تصلك إشعارات هذه الفعالية، إضغط على 🎉 بالأسفل .',
 				);
-			message.channel.send(embed).then((msg) => {
+			message.channel.send(embed).then(async (msg) => {
 				msg.react('🎉');
 				message.guild.roles
 					.create({
@@ -52,6 +58,7 @@ module.exports = {
 						settingData.setting = option;
 						settingData.save();
 					});
+				await msg.pin();
 			});
 			message.delete();
 		}
@@ -76,9 +83,9 @@ module.exports = {
 					'• This is the end of today\'s event, we hope you like it .\n• هذه نهاية فعالية اليوم، نتمنى أنكم استمتعتم .',
 				);
 			const option = settingData.setting;
-			if (option == false) return message.channel.send('**🤔 - There isn\'t any running event .**');
 			message.channel.send(embed).then(msg => msg.react('808781729468645496'));
 			message.guild.roles.cache.get(option.role).delete();
+			await message.channel.messages.fetch(option.msg).then(msg => msg.unpin());
 			settingData.setting = false;
 			settingData.save();
 		}
