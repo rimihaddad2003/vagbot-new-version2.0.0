@@ -24,7 +24,7 @@ module.exports = {
 		client.channels.cache.get('868112856762175550').send(embed);
 
 		const maintd = await maint.findOne({ commandname: command.name });
-		if (message.author.id !== client.owner && maintd.maintenance == true) return message.channel.send('**🚧 - This command under maintenance .**');
+		if (message.author.id !== client.owner && maintd.maintenance == true) return message.channel.send('**🚧 - This command is under maintenance .**');
 
 		if (command.perms && !message.member.permissions.has(command.perms.map((v) => v.toUpperCase()) ?? [])) return message.channel.send(`**🚫 - You don't have any of the required permissions: \`${command.perms.map((value) => client.bettercase(value.toLowerCase().replace(/guild/g, 'server').replace(/_/g, ' '))).join('`, `')}\`**`);
 		if (client.cooldowns.has(`${message.author.id}_${command.name}`)) {
