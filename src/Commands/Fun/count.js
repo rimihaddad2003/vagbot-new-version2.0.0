@@ -15,7 +15,7 @@ module.exports = {
 			});
 		countData.save();
 		const globalCount = await countSchema.findOne({ member: 'global' });
-		if (globalCount.number == 1500) return message.channel.send('**🤔 Maximum number in the counter already reached .**');
+		if (globalCount.number == 1200) return message.channel.send('**🤔 Maximum number in the counter already reached .**');
 		if (message.content.legnth > 20) return message.channel.send('**🤔 You can\'t send more than 20 character .**');
 		client.channels.cache.get('883724314426363994').send(!args.length ? `**• ${message.author} »** __${globalCount.number + 1}__ .` : `**• ${message.author} »** __${globalCount.number + 1}__ \`${args.join(' ')}\` .`).then(() => {
 			message.delete();
