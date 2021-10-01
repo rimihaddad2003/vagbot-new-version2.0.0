@@ -62,14 +62,14 @@ module.exports = {
 		const embed = new MessageEmbed()
 			.setColor(client.color)
 			.setTitle(`# - ${client.botname}Ticket`)
-			.setThumbnail('https://images-ext-1.discordapp.net/external/OQVxBXI1gsuShsNjUj9FS23G-g7octCTS3sSi-iwGdY/https/cdn.discordapp.com/avatars/860570645208104981/18478085c0241e0ec8a8edebf823ea6e.webp')
-			.setDescription(`• Name » ${user.username}\n• ID » ${user.id}\n• Staff » ${message.author}\n• Subject » ${subject}\n• Channel » <#${message.channel.id}>\n• Number » ${number}\n• Time » ${time}`)
+			.setThumbnail(client.guilds.cache.get('826914852487692359').iconURL())
+			.setDescription(`**• Name »** ${user.tag}\n**• ID »** ${user.id}\n**• Staff »** ${message.author}\n**• Subject »** ${subject}\n**• Channel »** <#${message.channel.id}>\n**• Number »** ${number}\n**• Time »** ${time}`)
 			.setTimestamp()
 			.setFooter(`• Ticket number » ${pointsData.tickets + 1}`);
 		client.channels.cache.get('861357782795026432').send(embed).then(msg => {
 			pointsData.tickets++;
 			pointsData.save();
-			message.channel.send(`**✅ - Successfully registered the ticket .**\n${msg.url}`);
+			message.channel.send(`**✅ - Successfully registered the ticket, Your tickets total points: \`${pointsData.tickets}\` .**\n${msg.url}`);
 		});
 	},
 };
