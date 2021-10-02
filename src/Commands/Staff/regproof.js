@@ -1,4 +1,6 @@
 const { MessageEmbed } = require('discord.js');
+const fs = require('fs');
+const request = require('request');
 const pointsSchema = require('../../Models/pointsModel');
 const { MessageMenu, MessageMenuOption } = require('discord-buttons');
 const menu1 = new MessageMenu()
@@ -107,18 +109,20 @@ module.exports = {
 						got.first().delete();
 					});
 
+					request(photo).pipe(fs.createWriteStream('./src/Photos/Proof.png'));
+
 					msg.edit('**• Send an additional note __(optional)__:**');
 					await msg.channel.awaitMessages(filter, { max: 1 }).then(async got => {
 						note = got.first().content;
 						got.first().delete();
 					});
-
 					const embed = new MessageEmbed()
 						.setColor(client.color)
 						.setTitle('# - VagProof')
 						.setThumbnail(message.guild.iconURL())
 						.setDescription(`**• Name »** ${user.tag}\n**• ID »** ${user.id}\n**• Staff »** ${message.author}\n**• Reason »** ${reason}\n**• Length »** ${time}\n**• Note »** ${note}`)
-						.setImage(photo)
+						.attachFiles(['./src/Photos/Proof.png'])
+						.setImage('attachment://Proof.png')
 						.setTimestamp()
 						.setFooter(`• Proof number » ${pointsData.proofs + 1}`);
 					client.channels.cache.get('861357803947556874').send(embed).then(m => {
