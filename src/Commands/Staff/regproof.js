@@ -109,7 +109,8 @@ module.exports = {
 						got.first().delete();
 					});
 
-					request(photo).pipe(fs.createWriteStream('./src/Photos/Proof.png'));
+					const ext = photo.split('.').slice(-1)[0];
+					request(photo).pipe(fs.createWriteStream(`./src/Photos/Proof.${ext}`));
 
 					msg.edit('**• Send an additional note __(optional)__:**');
 					await msg.channel.awaitMessages(filter, { max: 1 }).then(async got => {
@@ -121,8 +122,8 @@ module.exports = {
 						.setTitle('# - VagProof')
 						.setThumbnail(message.guild.iconURL())
 						.setDescription(`**• Name »** ${user.tag}\n**• ID »** ${user.id}\n**• Staff »** ${message.author}\n**• Reason »** ${reason}\n**• Length »** ${time}\n**• Note »** ${note}`)
-						.attachFiles(['./src/Photos/Proof.png'])
-						.setImage('attachment://Proof.png')
+						.attachFiles([`./src/Photos/Proof.${ext}`])
+						.setImage(`attachment://Proof.${ext}`)
 						.setTimestamp()
 						.setFooter(`• Proof number » ${pointsData.proofs + 1}`);
 					client.channels.cache.get('861357803947556874').send(embed).then(m => {
