@@ -1,5 +1,5 @@
 const settingSchema = require('../../Models/settingModel');
-const settings = ['suggestions', 'welcome', 'applyget', 'applysend', 'family', 'event', 'ticket', 'staff', 'suggrole', 'ticketclosed'];
+const settings = ['suggestions', 'welcome', 'applyget', 'applysend', 'family', 'event', 'ticket', 'staff', 'suggrole', 'ticketclosed', 'proofget', 'proofsend'];
 
 module.exports = {
 	name: 'setting',
@@ -163,6 +163,28 @@ module.exports = {
 				settingData.setting = todb;
 				settingData.save();
 				message.channel.send(`**🔍 - Successfully set suggestion role/s to: \`${todb.map((value) => message.guild.roles.cache.get(value).name).join('`, `')}\` .**`);
+			}
+		}
+
+		if (setting.toLowerCase() == 'proofget') {
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current proof getting channel is <#${settingData.setting}> .**`); }
+			else {
+				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[0]);
+				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
+				settingData.setting = channel.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set apply channel to <#${channel.id}> .**`);
+			}
+		}
+
+		if (setting.toLowerCase() == 'proofsend') {
+			if (!newset[0]) { return message.channel.send(`**🔍 - Current proof sending channel is <#${settingData.setting}> .**`); }
+			else {
+				const channel = message.mentions.channels.first() || client.channels.cache.get(newset[1]);
+				if (!channel) return message.channel.send('**⚠️ - Invalid channel, please provide a mention or an ID .**');
+				settingData.setting = channel.id;
+				settingData.save();
+				message.channel.send(`**✅ Successfully set applications channel to <#${channel.id}> .**`);
 			}
 		}
 	},
