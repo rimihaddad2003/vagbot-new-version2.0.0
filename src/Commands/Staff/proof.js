@@ -29,7 +29,7 @@ module.exports = {
 				},
 				{
 					id: message.author.id,
-					allow: ['SEND_MESSAGES'],
+					allow: ['SEND_MESSAGES', 'VIEW_CHANNEL'],
 				},
 				{
 					id: proof.member,
