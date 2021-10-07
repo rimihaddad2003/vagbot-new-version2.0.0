@@ -24,7 +24,7 @@ module.exports = {
 			.setColor(client.color)
 			.setTimestamp()
 			.setThumbnail(message.guild.iconURL({ dynamic: true }));
-		channel.send('<@&768222497908719617>', { embed: embed }).then(msg => {
+		channel.send('@here', { embed: embed }).then(msg => {
 			proofsData.msgID = msg.id;
 			proofsData.save();
 		});
