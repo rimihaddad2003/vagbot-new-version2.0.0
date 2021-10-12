@@ -7,6 +7,7 @@ module.exports = {
 	desc: 'allow you to edit a suggestion you send before',
 	aliases: ['editsugg'],
 	cooldown: 20000,
+	category: 'general',
 	usage: '<code> <message>',
 	args: true,
 	run: async (client, message, args) => {
