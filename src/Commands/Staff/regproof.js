@@ -134,7 +134,6 @@ module.exports = {
 					msg.delete();
 				}
 				catch (m) {
-					console.log(m);
 					message.channel.send(m);
 					msg.delete();
 				}

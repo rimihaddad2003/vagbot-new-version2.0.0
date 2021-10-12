@@ -11,12 +11,6 @@ module.exports = {
 		if (message.author.bot) return;
 		const channel = client.channels.cache.get(channel2.setting);
 		const code = Math.random().toString(36).substr(2, 5);
-		const proofsData = new proofsSchema({
-			code: code,
-			member: message.author.id,
-			message: message.content,
-		});
-		proofsData.save();
 		const embed = new MessageEmbed()
 			.setTitle(`# - ${client.botname}Proof`)
 			.setDescription(message.content)
@@ -25,7 +19,12 @@ module.exports = {
 			.setTimestamp()
 			.setThumbnail(message.guild.iconURL({ dynamic: true }));
 		channel.send('<@&768222497908719617>', { embed: embed }).then(msg => {
-			proofsData.msgID = msg.id;
+			const proofsData = new proofsSchema({
+				code: code,
+				member: message.author.id,
+				message: message.content,
+				msgID: msg.id,
+			});
 			proofsData.save();
 		});
 		message.delete();
