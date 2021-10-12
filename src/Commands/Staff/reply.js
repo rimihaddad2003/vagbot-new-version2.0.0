@@ -6,7 +6,7 @@ module.exports = {
 	name: 'reply',
 	desc: 'Reply to a suggestion sent in the channel',
 	category: 'staff',
-	usage: '<message id> <reply>',
+	usage: '<code> <reply>',
 	args: true,
 	cooldown: 5000,
 	run: async (client, message, args) => {

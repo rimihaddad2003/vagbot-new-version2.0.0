@@ -4,12 +4,6 @@ const suggSchema = require('../../Models/suggestionModel');
 
 module.exports = {
 	name: 'message',
-	/**
-	 *
-	 * @param { Client } client
-	 * @param { Message } message
-	 * @returns
-	 */
 	run: async (client, message) => {
 		if (message.author.bot) return;
 		const channel = await settingSchema.findOne({ option: 'suggestions' });
